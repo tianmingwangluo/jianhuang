@@ -17,6 +17,6 @@ npm install express socket.io
 最后把node.js文件放在一级目录，html文件放在二级public目录，然后cd到website-tester目录下，使用命令<br>
 npm set-script start "node node.js"<br>
 npm start<br>
-npm set-script start "node node.js"<br>就可以使用了
+就可以使用了
 
 默认是3000端口，需要改动自己改一下
