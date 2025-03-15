@@ -10,11 +10,12 @@ cd website-tester
 
 初始化npm并安装依赖:
 <br>npm init -y<br>
-npm install express socket.io<br>
-npm set-script start "node node.js"
+npm install express socket.io
 
 然后创建一个二级文件夹，名称为：public
 
-最后把node.js文件放在一级目录，html文件放在二级public目录，然后cd到website-tester目录下，使用命令 npm start就可以使用了
+最后把node.js文件放在一级目录，html文件放在二级public目录，然后cd到website-tester目录下，使用命令 
+<br>npm start<br><br>
+npm set-script start "node node.js"<br>就可以使用了
 
 默认是3000端口，需要改动自己改一下
