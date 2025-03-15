@@ -5,11 +5,11 @@
 一键脚本：source <(curl -L https://nodejs-install.netlify.app/install.sh)
 
 然后创建文件目录:
-mkdir website-tester
+mkdir website-tester<br>
 cd website-tester
 
 初始化npm并安装依赖:
-npm init -y
+npm init -y<br>
 npm install express socket.io
 
 然后创建一个二级文件夹，名称为：public
