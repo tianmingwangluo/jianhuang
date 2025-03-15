@@ -65,8 +65,9 @@
     
     <!-- 任务记录 -->
     <div class="card">
-      <div class="card-header">
-        任务记录
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span>任务记录</span>
+        <button id="clearRecords" class="btn btn-sm btn-outline-danger">清除记录</button>
       </div>
       <div class="card-body">
         <table class="table table-striped" id="recordsTable">
@@ -100,6 +101,11 @@
     const speedData = [];
     const MAX_DATA_POINTS = 60; // 保留60个数据点，约一分钟的数据
 
+    // 页面加载完成后立即获取记录
+    $(document).ready(function() {
+      updateRecords(); // 页面加载后立即获取记录
+    });
+
     // 接收后端实时数据
     socket.on('stats', (data) => {
       $('#total').text(data.totalGB);
@@ -123,8 +129,13 @@
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({ url: url }),
-        success: function(data) { console.log('下载开始', data); },
-        error: function(err) { console.error(err); }
+        success: function(data) { 
+          console.log('下载开始', data);
+        },
+        error: function(err) { 
+          console.error('启动下载失败:', err);
+          alert('启动下载失败: ' + err.responseJSON?.error || '未知错误');
+        }
       });
     });
 
@@ -138,8 +149,30 @@
           console.log('下载停止', data);
           updateRecords();
         },
-        error: function(err) { console.error(err); }
+        error: function(err) { 
+          console.error('停止下载失败:', err);
+          alert('停止下载失败: ' + err.responseJSON?.error || '未知错误');
+        }
       });
+    });
+
+    // 清除记录按钮事件
+    $('#clearRecords').click(() => {
+      if (confirm('确定要清除所有记录吗？')) {
+        $.ajax({
+          url: '/clear-records',
+          method: 'POST',
+          contentType: 'application/json',
+          success: function(data) {
+            console.log('记录已清除');
+            updateRecords(); // 刷新表格
+          },
+          error: function(err) {
+            console.error('清除记录失败:', err);
+            alert('清除记录失败: ' + err.responseJSON?.error || '未知错误');
+          }
+        });
+      }
     });
 
     // 添加图表数据
@@ -211,16 +244,26 @@
       $.get('/records', function(data) {
         let tbody = $('#recordsTable tbody');
         tbody.empty();
-        data.forEach(function(record) {
-          let row = `<tr>
-            <td>${record.startTime}</td>
-            <td>${record.endTime}</td>
-            <td>${record.durationSec}</td>
-            <td>${record.totalGB}</td>
-            <td>${record.averageSpeedMbps}</td>
-          </tr>`;
-          tbody.append(row);
-        });
+        
+        if (data.length === 0) {
+          tbody.append('<tr><td colspan="5" class="text-center">暂无记录</td></tr>');
+        } else {
+          data.forEach(function(record) {
+            let row = `<tr>
+              <td>${record.startTime}</td>
+              <td>${record.endTime}</td>
+              <td>${record.durationSec}</td>
+              <td>${record.totalGB}</td>
+              <td>${record.averageSpeedMbps}</td>
+            </tr>`;
+            tbody.append(row);
+          });
+        }
+      }).fail(function(err) {
+        console.error("获取记录失败:", err);
+        let tbody = $('#recordsTable tbody');
+        tbody.empty();
+        tbody.append('<tr><td colspan="5" class="text-center text-danger">获取记录失败</td></tr>');
       });
     }
 
