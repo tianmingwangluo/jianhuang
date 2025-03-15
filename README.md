@@ -2,14 +2,14 @@
 
 使用方法很简单，先安装nodejs
 
-一键脚本：source <(curl -L https://nodejs-install.netlify.app/install.sh)
+一键脚本：<br>source <(curl -L https://nodejs-install.netlify.app/install.sh)
 
 然后创建文件目录:
-mkdir website-tester<br>
+<br>mkdir website-tester<br>
 cd website-tester
 
 初始化npm并安装依赖:
-npm init -y<br>
+<br>npm init -y<br>
 npm install express socket.io
 
 然后创建一个二级文件夹，名称为：public
