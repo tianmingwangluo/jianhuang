@@ -11,6 +11,7 @@ cd website-tester
 初始化npm并安装依赖:
 <br>npm init -y<br>
 npm install express socket.io
+npm set-script start "node node.js"
 
 然后创建一个二级文件夹，名称为：public
 
