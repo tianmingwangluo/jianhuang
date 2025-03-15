@@ -1,11 +1,12 @@
 本程序仅用于网站上下传测试，请勿用于非法用途
 
-更新：docker 一键命令：
+方法一：
+docker 一键命令：
 
 docker run -d -p 9111:3000 diead/jh:v0
 
 
-
+方法二：
 使用方法很简单，先安装nodejs
 
 一键脚本：<br>source <(curl -L https://nodejs-install.netlify.app/install.sh)
